@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/Mukunth-arya/golangapp/models"
+	test "github.com/Mukunth-arya/golangapp/tests"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -44,6 +45,7 @@ func init() {
 
 // insert 1 record
 func insertOneData(Data1 models.Data) {
+
 	inserted, err := collection.InsertOne(context.Background(), Data1)
 
 	if err != nil {
@@ -102,12 +104,12 @@ func getAllDatas() []primitive.M {
 	var Datahold []primitive.M
 
 	for cur.Next(context.Background()) {
-		var movie bson.M
-		err := cur.Decode(&movie)
+		var Alldata bson.M
+		err := cur.Decode(&Alldata)
 		if err != nil {
 			log.Fatal(err)
 		}
-		Datahold = append(Datahold, movie)
+		Datahold = append(Datahold, Alldata)
 	}
 
 	defer cur.Close(context.Background())
@@ -127,7 +129,9 @@ func CreateData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
 
 	var Data3 models.Data
+
 	_ = json.NewDecoder(r.Body).Decode(&Data3)
+	test.Validate(Data3)
 	insertOneData(Data3)
 	json.NewEncoder(w).Encode(Data3)
 
