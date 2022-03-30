@@ -1,3 +1,17 @@
+// Package classification of product api
+//
+// Documentation of product api
+// Schemes: http
+// BasePath: /mnt/f/src/github.com
+// Version: 1.0.0
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+// swagger: meta
+
 package helpers
 
 import (
@@ -20,6 +34,8 @@ import (
 const db_url = "mongodb+srv://mukunth:mukunth@mycluster.jptcn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const db_name = "mydb1"
 const db_collec = "mycol1"
+
+type myvalue struct{}
 
 var collection *mongo.Collection
 
@@ -44,6 +60,7 @@ func init() {
 // MONGODB helpers - file
 
 // insert 1 record
+
 func insertOneData(Data1 models.Data) {
 
 	inserted, err := collection.InsertOne(context.Background(), Data1)
@@ -51,7 +68,7 @@ func insertOneData(Data1 models.Data) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Inserted 1 movie in db with id: ", inserted.InsertedID)
+	fmt.Println("Inserted 1 Singledata in db with id: ", inserted.InsertedID)
 }
 
 // update 1 record
@@ -77,7 +94,7 @@ func deleteOneData(DataId string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("MOvie got delete with delete count: ", deleteCount)
+	fmt.Println("Data got delete with delete count: ", deleteCount)
 }
 
 // delete all records from mongodb
@@ -116,8 +133,6 @@ func getAllDatas() []primitive.M {
 	return Datahold
 }
 
-// Actual controller - file
-
 func GetMyAllData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	alldatas := getAllDatas()
@@ -128,10 +143,7 @@ func CreateData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
 
-	var Data3 models.Data
-
-	_ = json.NewDecoder(r.Body).Decode(&Data3)
-	test.Validate(Data3)
+	Data3 := r.Context().Value(myvalue{}).(models.Data)
 	insertOneData(Data3)
 	json.NewEncoder(w).Encode(Data3)
 
@@ -161,4 +173,23 @@ func DeleteAllData(w http.ResponseWriter, r *http.Request) {
 
 	count := deleteAllData()
 	json.NewEncoder(w).Encode(count)
+}
+func MiddlewareData(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+
+		var Data3 models.Data
+
+		err := json.NewDecoder(r.Body).Decode(&Data3)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+
+		test.Validate(Data3)
+
+		ctx := context.WithValue(r.Context(), myvalue{}, Data3)
+		r = r.WithContext(ctx)
+		next.ServeHTTP(rw, r)
+	})
+
 }

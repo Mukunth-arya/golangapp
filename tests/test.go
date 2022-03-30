@@ -11,12 +11,18 @@ import (
 func Validate(Data3 models.Data) {
 
 	err := validation.ValidateStruct(&Data3,
-		validation.Field(&Data3.ProductName, validation.Required,
-			validation.Length(5, 30).Error("please enter the value between a to z")),
-		validation.Field(&Data3.Servicecomment, validation.Required,
-			validation.Match(regexp.MustCompile(`[a-z]+`))),
-		validation.Field(&Data3.Qualiycomment, validation.Required,
-			validation.Match(regexp.MustCompile(`[a-z]+`))),
+		validation.Field(&Data3.CakeName, validation.Required,
+			validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
+		validation.Field(&Data3.Cakeflavour, validation.Required,
+			validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
+		validation.Field(&Data3.TypeofCream, validation.Required,
+			validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
+		validation.Field(&Data3.Toppings, validation.Required,
+			validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
+		validation.Field(&Data3.Shape, validation.Required,
+			validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
+		//validation.Field(&Data3.Satisfied, validation.Required,
+		//validation.Match(regexp.MustCompile(`[a-z]+`)).Error("Letters between a to z  are only allowed")),
 	)
 	if err != nil {
 		log.Fatal(err)

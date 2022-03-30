@@ -5,9 +5,11 @@ import (
 )
 
 type Data struct {
-	ID             primitive.ObjectID `json:"_id" bson:"_id,omitempty" `
-	ProductName    string             `json:"Product" `
-	Servicecomment string             `json:"servicecomment" `
-	Qualiycomment  string             `json:"qualitycomment"`
-	Satisfied      bool               `json:"satisfied" `
+	ID          primitive.ObjectID `json:"_id" bson:"_id,omitempty" `
+	CakeName    string             `json:"CakeName" `
+	Cakeflavour string             `json:"cakeflavour" `
+	TypeofCream string             `json:"typeofcream"`
+	Toppings    string             `json:"toppings" `
+	Shape       string             `json:"shapeofcake"`
+	Satisfied   bool               `json:"satisfied"`
 }
