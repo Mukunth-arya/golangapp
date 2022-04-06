@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"time"
 
+	test "github.com/Mukunth-arya/golangapp/tests"
+
 	"github.com/Mukunth-arya/golangapp/helpers"
 
 	"github.com/gorilla/mux"
@@ -19,6 +21,7 @@ func main() {
 	router := mux.NewRouter()
 	Getd := router.Methods(http.MethodGet).Subrouter()
 	Getd.HandleFunc("/Products", helpers.GetMyAllData)
+	Getd.HandleFunc("/home", test.Homepage)
 
 	Postd := router.Methods(http.MethodPost).Subrouter()
 	Postd.HandleFunc("/Products/Applyit", helpers.CreateData)
@@ -26,6 +29,8 @@ func main() {
 
 	Putd := router.Methods(http.MethodPut).Subrouter()
 	Putd.HandleFunc("/Products/Modit/{id}", helpers.Satisfication)
+	Putd.HandleFunc("/Signup", test.Signup)
+	Putd.HandleFunc("/Login", test.Login)
 
 	Deleted := router.Methods(http.MethodDelete).Subrouter()
 	Deleted.HandleFunc("/Products/Delit/{id}", helpers.DeleteAData)

@@ -13,3 +13,12 @@ type Data struct {
 	Shape       string             `json:"shapeofcake"`
 	Satisfied   bool               `json:"satisfied"`
 }
+type Jwtmodel struct {
+	Email    string `json:"email" bson:"email"`
+	Password string `json:"password" bson:"password"`
+}
+type Tokens struct {
+	Email        string `json:"email"`
+	Token        string `json:"token" bson:"token"`
+	Refreshtoken string `json:"refreshtoken" bson:"refreshtoken"`
+}

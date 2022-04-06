@@ -31,7 +31,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const db_url = "mongodb+srv://mukunth:mukunth@mycluster.jptcn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const db_url = ""
 const db_name = "mydb1"
 const db_collec = "mycol1"
 
